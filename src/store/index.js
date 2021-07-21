@@ -10,31 +10,54 @@ export default new Vuex.Store({
             1: [2, 3], // if we have 2, 3 lives cell will live
             0: [3] // if we have 3 lives cell will live
         },
-        minSize: 4, // minimum table size
-        maxSize: 1000, // minimum table size
 
         // dynamic
         data: [], // active table data
 
-        size: 100, // size of table
-        showGrid: false, // show grid or no
+        size: 40, // size of table
+        showGrid: true, // show grid or no
 
         isAuto: true, // is it going automaticaly
         frequency: .1, // how frequently rendering in seconds
         randomVariety: .5, // random variety
 
         timeout: null,
+
+        drawType: true,
     },
     getters: {
         getData: state => state.data,
         getSize: state => state.size,
         getShowGrid: state => state.showGrid,
         getIsAuto: state => state.isAuto,
+        getRandomVariety: state => state.randomVariety,
+        getDrawType: state => state.drawType,
         isSizeMatches: state => state.data.length === state.size,
     },
     mutations: {
+        setCellData(state, [i, j]) {
+            if(state.isAuto) return null;
+            let data = state.data.slice();
+            data[i][j] = state.drawType;
+            state.data = data;
+        },
         setData(state, value) {
             state.data = value;
+        },
+        setSize(state, val) {
+            const value = val || state.size;
+            state.isAuto = false;
+            state.size = value;
+
+            let data = [];
+            for (let i = 0; i < value; i++) {
+                let row = [];
+                for (let j = 0; j< value; j++) {
+                    row.push(false)
+                }
+                data.push(row)
+            }
+            state.data = data;
         },
         createTimeout(state, callback) {
             clearTimeout(state.timeout);
@@ -43,6 +66,7 @@ export default new Vuex.Store({
         clearTimeout(state) {
           clearTimeout(state.timeout);
         },
+
         set(state, [namespace, value]) {
             state[namespace] = value;
         }
