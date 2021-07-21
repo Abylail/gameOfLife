@@ -110,7 +110,7 @@ export default {
       grid-template-areas: "tools automata";
 
       &__description {
-        font-size: 20px;
+        font-size: 16px;
       }
 
       &__row {
@@ -122,7 +122,8 @@ export default {
         // left side
         grid-area: tools;
         border-right: 1px solid black;
-        padding: 0 10px;
+        padding: 0 15px;
+        overflow: auto;
       }
 
       &__automata {
@@ -132,6 +133,7 @@ export default {
       }
 
       &__title {
+        font-size: 22px;
         margin: 30px 0 10px 0;
         padding: 0 20px;
       }
@@ -141,7 +143,7 @@ export default {
       }
 
       &__text-devider {
-        margin-top:  40px;
+        margin-top: 30px;
         margin-bottom: 10px;
       }
     }

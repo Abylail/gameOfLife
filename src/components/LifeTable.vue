@@ -66,7 +66,7 @@ export default {
       width: 100%;
       height: 100%;
       border-spacing: 0;
-      cursor: pointer;
+      cursor: pointer !important;
 
         &__cell:hover {
           background-color: #d4d4d4;
