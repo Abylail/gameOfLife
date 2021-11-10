@@ -14,6 +14,7 @@ export default {
   components: { MainLayout, LifeTable },
   mounted() {
     this.$store.dispatch("generateRandomData");
+    this.$calculations.createEmpty(20);
   }
 }
 </script>
