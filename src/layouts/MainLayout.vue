@@ -68,7 +68,6 @@ import { mapMutations, mapGetters, mapActions } from "vuex";
 
 export default {
   created() {
-    console.log(this.$calc);
     this.initCalculations();
   },
   components: {BaseCheckbox, BaseButton, BaseRange,BaseWarn},
