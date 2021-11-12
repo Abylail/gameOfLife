@@ -1,5 +1,11 @@
 self.addEventListener("message", e => {
-    const data = e.data;
-    console.log("CREATE EMPTY");
-    self.postMessage(data);
+    const _num = e.data;
+
+    let _array = [];
+
+    for (let i = 0; i<_num; i++) {
+        _array.push(new Array(_num).fill(0));
+    }
+
+    self.postMessage(_array);
 })

@@ -12,6 +12,9 @@
 <script>
 export default {
   name: "BaseRange",
+  data: () => ({
+    timeout: null,
+  }),
   props: {
     value: {
       type: Number,
@@ -32,7 +35,9 @@ export default {
   },
   methods: {
     input(event) {
-      this.$emit('input', parseInt(event.target.value))
+      clearTimeout(this.timeout);
+      this.timeout =  setTimeout(() =>
+          this.$emit('input', parseInt(event.target.value)), 10);
     }
   }
 }

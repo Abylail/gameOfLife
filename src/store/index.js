@@ -51,10 +51,7 @@ export default new Vuex.Store({
 
             let data = [];
             for (let i = 0; i < value; i++) {
-                let row = [];
-                for (let j = 0; j< value; j++) {
-                    row.push(false)
-                }
+                let row = new Array(value);
                 data.push(row)
             }
             state.data = data;
@@ -72,6 +69,17 @@ export default new Vuex.Store({
         }
     },
     actions: {
+        createEmpty({ state, commit }, val) {
+            if(val) commit("set", ["size", val]);
+            this._vm.$calc.createEmpty.set(state.size);
+        },
+        initCalculations({commit}) {
+            this._vm.$calc.createEmpty.onchange = data => {
+                commit("set", ["data", data]);
+                // console.log(data);
+            };
+        },
+
         generateRandomData({ dispatch, state, getters, commit }) {
             let newData = [];
             for(let row = 0; row < state.size; row++) {
@@ -92,33 +100,8 @@ export default new Vuex.Store({
             })
         },
         // generating next data by active data
-        generateData({ state, dispatch, getters, commit }) {
-            let nextData = [];
-            state.data.forEach((row, rowIndex) => {
-                let newRow = [];
-                row.forEach((cell, cellIndex) => {
-                    let activeCellAround = 0;
-                    const prevRowIndex = rowIndex - 1;
-                    const prevCellIndex = cellIndex - 1;
-                    for(let i = prevRowIndex; i < prevRowIndex + 3; i++) {
-                        if(i >= 0 && state.data[i]) {
-                            for(let j = prevCellIndex; j < prevCellIndex + 3; j++) {
-                                const isSamePosition = i === rowIndex && j === cellIndex;
-                                if(!isSamePosition && j >= 0 && state.data[i][j]) {
-                                    activeCellAround++;
-                                }
-                            }
-                        }
-                    }
-
-                    const cellNextValue = state.rules[+cell].includes(activeCellAround);
-                    newRow.push(cellNextValue);
-                })
-                nextData.push(newRow);
-            });
-            state.data = nextData;
-
-
+        async generateData({ state, dispatch, getters, commit }) {
+            state.data = await this._vm.$calc.nextStep.promise(state.data, [new ArrayBuffer()]);
 
             /// run is auto playing
             const canDoNext = state.isAuto && getters.isSizeMatches;

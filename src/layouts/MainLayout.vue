@@ -21,12 +21,19 @@
             :value="showGrid"
             @input="val => set(['showGrid', val])"
         />
+<!--        <BaseRange-->
+<!--          title="Размер таблицы"-->
+<!--          :value="size"-->
+<!--          :min="10"-->
+<!--          :max="200"-->
+<!--          @input="setSize"-->
+<!--        />-->
         <BaseRange
           title="Размер таблицы"
           :value="size"
           :min="10"
           :max="200"
-          @input="setSize"
+          @input="createEmpty"
         />
         <BaseRange
           title="Частота появления (рандом в процентах)"
@@ -40,7 +47,7 @@
           <div class="main-layout__row">
             <BaseButton :class="{disable: drawType}" @click="set(['drawType', true])">Выделять</BaseButton>
             <BaseButton :class="{disable: !drawType}" @click="set(['drawType', false])">Удалять</BaseButton>
-            <BaseButton @click="setSize">Очитить</BaseButton>
+            <BaseButton @click="createEmpty">Очитить</BaseButton>
           </div>
         </div>
       </div>
@@ -60,6 +67,10 @@ import BaseWarn from "../components/base/BaseWarn";
 import { mapMutations, mapGetters, mapActions } from "vuex";
 
 export default {
+  created() {
+    console.log(this.$calc);
+    this.initCalculations();
+  },
   components: {BaseCheckbox, BaseButton, BaseRange,BaseWarn},
   computed: {
     ...mapGetters({
@@ -75,6 +86,8 @@ export default {
   },
   methods: {
     ...mapActions({
+      initCalculations: "initCalculations",
+      createEmpty: "createEmpty",
       toggleIsAuto: "toggleIsAuto",
       generateData: "generateData",
       generateRandomData: "generateRandomData",
